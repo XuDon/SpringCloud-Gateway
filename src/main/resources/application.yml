@@ -1,0 +1,32 @@
+server:
+    port: 9006
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:9002/eureka/
+        register-with-eureka: true
+
+spring:
+    application:
+        name: getwayServer
+    cloud:
+        gateway:
+            discovery:
+                locator:
+                    enabled: true
+            routes:
+                - id: UserService1
+                  uri: lb://USERSERVICE1
+                  predicates:
+                      - Path=/user1/**
+                  filters:
+                      - StripPrefix=1
+                - id: UserService2
+                  uri: lb://USERSERVICE2
+                  predicates:
+                      - Path=/user2/**
+                  filters:
+                      - StripPrefix=1
+
+
